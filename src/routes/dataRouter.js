@@ -1,9 +1,10 @@
 import express from "express";
+import db from "../db.js";
 
 const dataRouter = express.Router();
 dataRouter.use(express.json());
 dataRouter.post("/", (req, res) => {
-  console.log(req.body);
+  db.add(req.body);
   res.end();  
 });
 
