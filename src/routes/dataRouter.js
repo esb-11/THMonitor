@@ -1,11 +1,8 @@
 import express from "express";
-import db from "../db.js";
+import { dataPost } from "../controller/dataController.js";
 
 const dataRouter = express.Router();
 dataRouter.use(express.json());
-dataRouter.post("/", (req, res) => {
-  db.add(req.body);
-  res.end();  
-});
+dataRouter.post("/", dataPost);
 
 export default dataRouter;
