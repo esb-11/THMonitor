@@ -1,7 +1,4 @@
-#! /usr/bin/env node
-
-import "dotenv/config";
-import { Client } from "pg";
+import { query } from "./pool.js";
 
 const SQL = `
 CREATE TABLE IF NOT EXISTS sensors (
@@ -54,12 +51,7 @@ CREATE TABLE IF NOT EXISTS recent_data (
 
 async function main() {
   console.log("seeding...");
-  const client = new Client({
-    connectionString: `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
-  });
-  await client.connect();
-  await client.query(SQL);
-  await client.end();
+  await query(SQL);
   console.log("done");
 }
 
