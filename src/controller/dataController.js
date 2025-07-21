@@ -1,5 +1,12 @@
+import { insertRecentData } from "../db/queries.js";
+
 function postData(req, res) {
-  const { sensor, temperature, humidity } = parseIncomingData(req.body);
+  try {
+    const data = parseIncomingData(req.body);
+    insertRecentData(data);
+  } catch (error) {
+    console.log(error);
+  }
   res.end();
 }
 
