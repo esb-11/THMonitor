@@ -8,8 +8,14 @@ async function getRecentData() {
 async function insertRecentData(data) {
   const { sensor, temperature, humidity } = data;
   
-  const sensor_id = await getSensorId(sensor);
-  const { location_id, position_id } = await getSensorPosition(sensor_id);
+  let sensor_id, location_id, position_id;
+  try {
+    sensor_id = await getSensorId(sensor);
+    location_id, position_id = await getSensorPosition(sensor_id);    
+  } catch (error) {
+    console.error(error);
+    return;
+  }
   
   await query("INSERT INTO recent_data (temperature, humidity, sensor_id, location_id, position_id) VALUES ($1, $2, $3, $4, $5)", [temperature, humidity, sensor_id, location_id, position_id]);
 }
