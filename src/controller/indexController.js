@@ -1,9 +1,9 @@
-import db from "../db.js";
+import { getRecentData } from "../db/queries.js";
 
-function getIndex(req, res) {
+async function getIndex(req, res) {
   res.render("index", {
     title: "Data",
-    table: db.get(),
+    table: await getRecentData(),
   });
 }
 

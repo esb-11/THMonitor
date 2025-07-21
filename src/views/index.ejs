@@ -10,16 +10,22 @@
 
   <table>
     <thead>
-      <th>Codigo</th>
-      <th>Temperatura</th>
-      <th>Umidade</th>
+      <th>Date</th>
+      <th>Sensor</th>
+      <th>Temperature</th>
+      <th>Humidity</th>
+      <th>Local</th>
+      <th>Position</th>
     </thead>
     <tbody>
       <% for (const row of table) { %>
         <tr>
-          <td><%= row.id %></td>
-          <td><%= row.t_canal1 %></td>
-          <td><%= row.u_canal1 %></td>
+          <td><%= row.date %></td>
+          <td><%= row.sensor %></td>
+          <td><%= row.temperature / 100 %> °C</td>
+          <td><%= row.humidity / 100 %> %</td>
+          <td><%= row.location %></td>
+          <td><%= row.position %></td>
         </tr>
       <% } %>
     </tbody>
