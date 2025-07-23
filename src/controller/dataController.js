@@ -5,7 +5,7 @@ function postData(req, res) {
     const data = parseIncomingData(req.body);
     insertRecentData(data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   res.end();
 }

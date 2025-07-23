@@ -11,7 +11,7 @@ async function insertRecentData(data) {
   let sensor_id, location_id, position_id;
   try {
     sensor_id = await getSensorId(sensor);
-    location_id, position_id = await getSensorPosition(sensor_id);    
+    ({location_id, position_id} = await getSensorPosition(sensor_id));    
   } catch (error) {
     console.error(error);
     return;
