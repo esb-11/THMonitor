@@ -3,32 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title>THMonitor</title>
 </head>
 <body>
-  <h1><%= title %></h1>
+  <header>
+    <div class="log">THMonitor</div>
+  </header>
 
-  <table>
-    <thead>
-      <th>Date</th>
-      <th>Sensor</th>
-      <th>Temperature</th>
-      <th>Humidity</th>
-      <th>Local</th>
-      <th>Position</th>
-    </thead>
-    <tbody>
-      <% for (const row of table) { %>
-        <tr>
-          <td><%= row.date %></td>
-          <td><%= row.sensor %></td>
-          <td><%= row.temperature / 100 %> °C</td>
-          <td><%= row.humidity / 100 %> %</td>
-          <td><%= row.location %></td>
-          <td><%= row.position %></td>
-        </tr>
-      <% } %>
-    </tbody>
-  </table>
+  <main>
+    <nav>
+      <ul>
+        <li><a href="">Dashboard</a></li>
+        <li><a href="">Sensors</a></li>
+        <li><a href="">Locations</a></li>
+        <li><a href="">Positions</a></li>
+        <li><a href="">Alerts</a></li>
+        <li><a href="">Reports</a></li>
+        <li><a href="">Settings</a></li>
+      </ul>
+    </nav>
+    <%- include(partial) %>
+  </main>
+
+  <footer>ESB-11</footer>
 </body>
 </html>
