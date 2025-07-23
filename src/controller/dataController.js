@@ -1,9 +1,9 @@
-import { insertRecentData } from "../db/queries.js";
+import { insertData } from "../db/queries.js";
 
 function postData(req, res) {
   try {
     const data = parseIncomingData(req.body);
-    insertRecentData(data);
+    insertData(data);
   } catch (error) {
     console.error(error);
   }
