@@ -10,7 +10,7 @@ async function insertData(data) {
     const location = await getLocation(location_id);
     const position = await getPosition(position_id);
     await query(
-      "INSERT INTO recent_data (temperature, humidity, sensor, location, position) VALUES ($1, $2, $3, $4, $5)",
+      "INSERT INTO today (temperature, humidity, sensor, location, position) VALUES ($1, $2, $3, $4, $5)",
       [temperature, humidity, sensor, location, position]
     );
   } catch (error) {
