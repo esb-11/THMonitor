@@ -1,51 +1,54 @@
 import { query } from "./pool.js";
 
 const SQL = `
-CREATE TABLE IF NOT EXISTS sensors (
+CREATE TABLE sensors (
 	sensor_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	sensor VARCHAR (255)
+	sensor VARCHAR (255) UNIQUE
 );
 
 
-CREATE TABLE IF NOT EXISTS locations (
+CREATE TABLE locations (
 	location_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	location VARCHAR (255)
+	location VARCHAR (255) UNIQUE
 );
 
 
-CREATE TABLE IF NOT EXISTS positions (
+CREATE TABLE positions (
 	position_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	position VARCHAR (255)
+	position VARCHAR (255) UNIQUE
 );
 
 
-CREATE TABLE IF NOT EXISTS map (
-	sensor_id INTEGER REFERENCES sensors,
-	location_id INTEGER REFERENCES locations,
-	position_id INTEGER REFERENCES positions,
-	PRIMARY KEY(sensor_id)
+CREATE TABLE map (
+	sensor_id INTEGER,
+	location_id INTEGER,
+	position_id INTEGER,
+	PRIMARY KEY(sensor_id),
+	CONSTRAINT fk_sensors FOREIGN KEY(sensor_id) REFERENCES sensors(sensor_id) ON DELETE CASCADE,
+	CONSTRAINT fk_location FOREIGN KEY(location_id) REFERENCES locations(location_id) ON DELETE SET NULL,
+	CONSTRAINT fk_position FOREIGN KEY(position_id) REFERENCES positions(position_id) ON DELETE SET NULL
 );
 
 
-CREATE TABLE IF NOT EXISTS historical_data (
+CREATE TABLE history (
 	id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	date DATE NOT NULL DEFAULT CURRENT_DATE,
 	temperature INTEGER NOT NULL,
 	humidity INTEGER NOT NULL,
-	sensor_id INTEGER REFERENCES sensors,
-	location_id INTEGER REFERENCES locations,
-	position_id INTEGER REFERENCES positions
+	sensor VARCHAR (255) NOT NULL,
+	location VARCHAR (255) NOT NULL,
+	position VARCHAR (255) NOT NULL
 );
 
 
-CREATE TABLE IF NOT EXISTS recent_data (
+CREATE TABLE today(
 	id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	date DATE NOT NULL DEFAULT CURRENT_DATE,
 	temperature INTEGER NOT NULL,
 	humidity INTEGER NOT NULL,
-	sensor_id INTEGER REFERENCES sensors,
-	location_id INTEGER REFERENCES locations,
-	position_id INTEGER REFERENCES positions
+	sensor VARCHAR (255) NOT NULL,
+	location VARCHAR (255) NOT NULL,
+	position VARCHAR (255) NOT NULL
 );
 `;
 
