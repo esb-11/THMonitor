@@ -22,6 +22,7 @@ async function insertData(data) {
 async function insertSensor(sensor) {
   try {
     await query("INSERT INTO sensors (sensor) VALUES (($1))", [sensor]);
+    await query("INSERT INTO map (sensor_id) SELECT sensor_id FROM sensors WHERE sensors.sensor='($1)'", [sensor]);
   } catch (error) {
     console.error(error);
   }
