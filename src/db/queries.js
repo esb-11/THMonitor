@@ -142,7 +142,7 @@ async function getSensorId(sensorName) {
       sensor: sensorName,
     }
   });  
-  return sensor.sensor_id;
+  return sensor?.sensor_id;
 }
 
 async function getSensorById(sensorId) {
@@ -151,17 +151,25 @@ async function getSensorById(sensorId) {
       sensor_id: sensorId,
     }
   });
-  return sensor.sensor;
+  return sensor?.sensor;
 }
 
-async function getLocationId(location) {
-  const { rows } = await query(
-    "SELECT location_id FROM locations WHERE location = ($1)",
-    [location]
-  );
-  if (rows.length == 0) throw new Error("Location not found");
-  const location_id = rows[0].location_id;
-  return location_id;
+async function getLocationId(locationName) {
+  const location = await prisma.locations.findUnique({
+    where: {
+      location: locationName,
+    },
+  });
+  return location?.location_id;
+}
+
+async function getLocationById(locationId) {
+  const location = await prisma.locations.findUnique({
+    where: {
+      location_id: locationId,
+    },
+  });
+  return location?.location;
 }
 
 async function getPositionId(position) {
@@ -183,16 +191,6 @@ async function getSensorPosition(sensor_id) {
   return rows[0];
 }
 
-async function getLocation(locationId) {
-  const { rows } = await query(
-    "SELECT location FROM locations WHERE location_id = ($1)",
-    [locationId]
-  );
-  if (rows.length == 0) throw new Error("Location not found");
-  const location = rows[0].location;
-  return location;
-}
-
 async function getPosition(positionId) {
   const { rows } = await query(
     "SELECT position FROM positions WHERE position_id = ($1)",
@@ -203,12 +201,14 @@ async function getPosition(positionId) {
   return position;
 }
 
-console.log();
+console.log(await getLocationById(5));
 
 export {
   getSensorId,
   getSensorById,
-  
+  getLocationId,
+  getLocationById,
+
   getRecentData,
   insertData,
   updateSensor,
