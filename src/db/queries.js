@@ -2,28 +2,21 @@ import { query } from "./pool.js";
 import prisma from "./prismaClient.js";
 
 // Insert queries
-async function insertData(data) {
-  const { sensor, temperature, humidity } = data;
-
-  try {
-    const sensor_id = await getSensorId(sensor);
-    const { location_id, position_id } = await getSensorPosition(sensor_id);
-    const location = await getLocation(location_id);
-    const position = await getPosition(position_id);
-    await query(
-      "INSERT INTO today (temperature, humidity, sensor, location, position) VALUES ($1, $2, $3, $4, $5)",
-      [temperature, humidity, sensor, location, position]
-    );
-  } catch (error) {
-    console.error(error);
-    return;
-  }
+async function insertToday(data) {
+  await prisma.today.create({
+    data: {
+      ...data,
+    },
+  });
 }
 
 async function insertSensor(sensor) {
   try {
     await query("INSERT INTO sensors (sensor) VALUES (($1))", [sensor]);
-    await query("INSERT INTO map (sensor_id) SELECT sensor_id FROM sensors WHERE sensors.sensor='($1)'", [sensor]);
+    await query(
+      "INSERT INTO map (sensor_id) SELECT sensor_id FROM sensors WHERE sensors.sensor='($1)'",
+      [sensor]
+    );
   } catch (error) {
     console.error(error);
   }
@@ -46,6 +39,20 @@ async function insertPosition(position) {
 }
 
 // Update queries
+async function updateToday(data) {
+  await prisma.today.update({
+    where: {
+      id: {
+        location_id: data.location_id,
+        position_id: data.position_id,
+      },
+    },
+    data: {
+      ...data,
+    },
+  });
+}
+
 async function updateSensor(currentValue, newValue) {
   try {
     const sensorId = await getSensorId(currentValue);
@@ -134,7 +141,7 @@ async function getSensorId(sensorName) {
     where: {
       sensor: sensorName,
     },
-  });  
+  });
   return sensor?.sensor_id;
 }
 
@@ -168,7 +175,7 @@ async function getLocationById(locationId) {
 async function getPositionId(positionName) {
   const position = await prisma.positions.findUnique({
     where: {
-      position: positionName, 
+      position: positionName,
     },
   });
   return position?.position_id;
@@ -183,21 +190,55 @@ async function getPositionById(positionId) {
   return position;
 }
 
-async function getSensorPosition(sensor_id) {
-  const { rows } = await query(
-    "SELECT location_id, position_id FROM map WHERE sensor_id = ($1)",
-    [sensor_id]
-  );
-  if (rows.length == 0) throw new Error("Sensor not found");
-  return rows[0];
-}
-
 async function getTodayData() {
   const todayData = await prisma.today.findMany();
   return todayData;
 }
 
-console.log(await getTodayData());
+async function getFromTodayById(location_id, position_id) {
+  return await prisma.today.findUnique({
+    where: {
+      id: {
+        location_id: location_id,
+        position_id: position_id,
+      },
+    },
+  });
+}
+
+async function getFromMapBySensorIdWithJoin(sensorId) {
+  const row = await prisma.map.findUnique({
+    where: {
+      sensor_id: sensorId,
+    },
+    include: {
+      locations: {
+        select: {
+          location: true,
+        },
+      },
+      positions: {
+        select: {
+          position: true,
+        },
+      },
+      sensors: {
+        select: {
+          sensor: true,
+        },
+      },
+    },
+  });
+  return row;
+}
+async function getFromMapBySensorId(sensorId) {
+  const row = await prisma.map.findUnique({
+    where: {
+      sensor_id: sensorId,
+    },
+  });
+  return row;
+}
 
 export {
   getSensorId,
@@ -207,8 +248,12 @@ export {
   getPositionId,
   getPositionById,
   getTodayData,
-
-  insertData,
+  getFromMapBySensorId,
+  getFromMapBySensorIdWithJoin,
+  getFromTodayById,
+  insertToday,
+  updateToday,
+  //
   updateSensor,
   updateLocation,
   updatePosition,

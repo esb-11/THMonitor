@@ -64,5 +64,5 @@ model today {
   locations       locations @relation(fields: [location_id], references: [location_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_location")
   positions       positions @relation(fields: [position_id], references: [position_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_position")
 
-  @@id([location_id, position_id])
+  @@id(name:"id",[location_id, position_id])
 }
