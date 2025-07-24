@@ -1,0 +1,23 @@
+<div class="sensors">
+<%- for (const location of sensorsList) { %>
+  <div class="sensors-list">
+  <table>
+    <h3 class="table-title"><%= location.name %></h3>
+    <thead>
+      <th>Sensor</th>
+      <th>Position</th>
+      <th>Location</th>
+    </thead>
+    <tbody>
+      <%- for (const sensor of location.sensors) { %>
+        <tr>
+          <td><%= sensor.name %></td>
+          <td><%= sensor.position %></td>
+          <td><%= sensor.location %></td>
+        </tr>
+      <%- } %>
+    </tbody>
+  </table>
+  </div>
+<%- } %>
+</div>
