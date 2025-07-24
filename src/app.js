@@ -1,5 +1,4 @@
 import "dotenv/config";
-import "./db/populatedb.js";
 import express from "express";
 import { fileURLToPath } from "url";
 import { join, dirname } from "path";
