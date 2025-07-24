@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 
 const pool = new Pool({
-  connectionString: process.env.DB_URI
+  connectionString: process.env.DATABASE_URL
 });
 
 const query = (text, values) => {
