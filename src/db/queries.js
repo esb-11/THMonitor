@@ -129,18 +129,11 @@ async function deletePosition(position) {
 }
 
 // Select queries
-async function getRecentData() {
-  const { rows } = await query(
-    "SELECT TO_CHAR(date, 'DD-MM-YYYY') AS date, sensor, temperature, humidity, location, position FROM recent_data JOIN sensors ON recent_data.sensor_id = sensors.sensor_id JOIN locations ON recent_data.location_id = locations.location_id JOIN positions ON recent_data.position_id = positions.position_id"
-  );
-  return rows;
-}
-
 async function getSensorId(sensorName) {
   const sensor = await prisma.sensors.findUnique({
     where: {
       sensor: sensorName,
-    }
+    },
   });  
   return sensor?.sensor_id;
 }
@@ -149,9 +142,9 @@ async function getSensorById(sensorId) {
   const sensor = await prisma.sensors.findUnique({
     where: {
       sensor_id: sensorId,
-    }
+    },
   });
-  return sensor?.sensor;
+  return sensor;
 }
 
 async function getLocationId(locationName) {
@@ -169,17 +162,25 @@ async function getLocationById(locationId) {
       location_id: locationId,
     },
   });
-  return location?.location;
+  return location;
 }
 
-async function getPositionId(position) {
-  const { rows } = await query(
-    "SELECT position_id FROM positions WHERE position = ($1)",
-    [position]
-  );
-  if (rows.length == 0) throw new Error("Position not found");
-  const position_id = rows[0].position_id;
-  return position_id;
+async function getPositionId(positionName) {
+  const position = await prisma.positions.findUnique({
+    where: {
+      position: positionName, 
+    },
+  });
+  return position?.position_id;
+}
+
+async function getPositionById(positionId) {
+  const position = await prisma.positions.findUnique({
+    where: {
+      position_id: positionId,
+    },
+  });
+  return position;
 }
 
 async function getSensorPosition(sensor_id) {
@@ -191,17 +192,14 @@ async function getSensorPosition(sensor_id) {
   return rows[0];
 }
 
-async function getPosition(positionId) {
+async function getRecentData() {
   const { rows } = await query(
-    "SELECT position FROM positions WHERE position_id = ($1)",
-    [positionId]
+    "SELECT TO_CHAR(date, 'DD-MM-YYYY') AS date, sensor, temperature, humidity, location, position FROM recent_data JOIN sensors ON recent_data.sensor_id = sensors.sensor_id JOIN locations ON recent_data.location_id = locations.location_id JOIN positions ON recent_data.position_id = positions.position_id"
   );
-  if (rows.length == 0) throw new Error("Position not found");
-  const position = rows[0].position;
-  return position;
+  return rows;
 }
 
-console.log(await getLocationById(5));
+console.log(await getPositionById(5));
 
 export {
   getSensorId,
