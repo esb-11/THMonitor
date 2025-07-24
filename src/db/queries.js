@@ -192,22 +192,22 @@ async function getSensorPosition(sensor_id) {
   return rows[0];
 }
 
-async function getRecentData() {
-  const { rows } = await query(
-    "SELECT TO_CHAR(date, 'DD-MM-YYYY') AS date, sensor, temperature, humidity, location, position FROM recent_data JOIN sensors ON recent_data.sensor_id = sensors.sensor_id JOIN locations ON recent_data.location_id = locations.location_id JOIN positions ON recent_data.position_id = positions.position_id"
-  );
-  return rows;
+async function getTodayData() {
+  const todayData = await prisma.today.findMany();
+  return todayData;
 }
 
-console.log(await getPositionById(5));
+console.log(await getTodayData());
 
 export {
   getSensorId,
   getSensorById,
   getLocationId,
   getLocationById,
+  getPositionId,
+  getPositionById,
+  getTodayData,
 
-  getRecentData,
   insertData,
   updateSensor,
   updateLocation,
