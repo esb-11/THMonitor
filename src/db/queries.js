@@ -1,4 +1,5 @@
 import { query } from "./pool.js";
+import prisma from "./prismaClient.js";
 
 // Insert queries
 async function insertData(data) {
@@ -135,14 +136,22 @@ async function getRecentData() {
   return rows;
 }
 
-async function getSensorId(sensor) {
-  const { rows } = await query(
-    "SELECT sensor_id FROM sensors WHERE sensor = ($1)",
-    [sensor]
-  );
-  if (rows.length == 0) throw new Error("Sensor not found");
-  const sensor_id = rows[0].sensor_id;
-  return sensor_id;
+async function getSensorId(sensorName) {
+  const sensor = await prisma.sensors.findUnique({
+    where: {
+      sensor: sensorName,
+    }
+  });  
+  return sensor.sensor_id;
+}
+
+async function getSensorById(sensorId) {
+  const sensor = await prisma.sensors.findUnique({
+    where: {
+      sensor_id: sensorId,
+    }
+  });
+  return sensor.sensor;
 }
 
 async function getLocationId(location) {
@@ -174,16 +183,6 @@ async function getSensorPosition(sensor_id) {
   return rows[0];
 }
 
-async function getSensor(sensorId) {
-  const { rows } = await query(
-    "SELECT sensor FROM sensors WHERE sensor_id = ($1)",
-    [sensorId]
-  );
-  if (rows.length == 0) throw new Error("Sensor not found");
-  const sensor = rows[0].sensor;
-  return sensor;
-}
-
 async function getLocation(locationId) {
   const { rows } = await query(
     "SELECT location FROM locations WHERE location_id = ($1)",
@@ -204,7 +203,12 @@ async function getPosition(positionId) {
   return position;
 }
 
+console.log();
+
 export {
+  getSensorId,
+  getSensorById,
+  
   getRecentData,
   insertData,
   updateSensor,
