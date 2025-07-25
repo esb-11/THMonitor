@@ -1,0 +1,17 @@
+<div class="locations">
+  <table>
+    <h3>Locations</h3>
+    <thead>
+      <th>Location</th>
+      <th>Email</th>
+    </thead>
+    <tbody>
+      <% for (const location of locations) { %>
+        <tr>
+          <td><%= location.location %></td>
+          <td><%= location.email || "Empty" %></td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

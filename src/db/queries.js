@@ -154,6 +154,15 @@ async function getSensorById(sensorId) {
   return sensor;
 }
 
+async function getAllLocations() {
+  const locations = await prisma.locations.findMany({
+    omit: {
+      location_id: true,
+    }
+  });
+  return locations;
+}
+
 async function getLocationId(locationName) {
   const location = await prisma.locations.findUnique({
     where: {
@@ -213,6 +222,11 @@ async function getTodayDataWithJoin() {
       location_id: true,
       position_id: true,
     },
+    orderBy: {
+      locations: {
+        location: 'asc',
+      },
+    },
   });
   return todayData;
 }
@@ -265,6 +279,7 @@ async function getFromMapBySensorId(sensorId) {
 export {
   getSensorId,
   getSensorById,
+  getAllLocations,
   getLocationId,
   getLocationById,
   getPositionId,
