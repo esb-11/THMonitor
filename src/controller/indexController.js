@@ -1,9 +1,9 @@
-import { getTodayData } from "../db/queries.js";
+import { getTodayData, getTodayDataWithJoin } from "../db/queries.js";
 
 async function getIndex(req, res) {
   res.render("index", {
-    title: "Data",
-    table: await getTodayData(),
+    partial: "partials/dashboard",
+    table: await getTodayDataWithJoin(),
   });
 }
 

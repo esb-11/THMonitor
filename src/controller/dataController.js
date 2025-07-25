@@ -39,7 +39,8 @@ async function pushToDB(data) {
   const sensor_id = await getSensorId(sensor);
   if (!sensor_id) throw new Error("sensor not found");
   const { location_id, position_id } = await getFromMapBySensorId(sensor_id);
-  const row = await getFromTodayById(location_id, position_id);  
+  if (!location_id || !position_id) throw new Error("sensor does not have an assigned position");
+  const row = await getFromTodayById(location_id, position_id);
 
   if (row) {
     row.min_temperature = Math.min(temperature, row.min_temperature);

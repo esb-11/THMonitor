@@ -195,6 +195,28 @@ async function getTodayData() {
   return todayData;
 }
 
+async function getTodayDataWithJoin() {
+  const todayData = await prisma.today.findMany({
+    include: {
+      locations: {
+        select: {
+          location: true,
+        },
+      },
+      positions: {
+        select: {
+          position: true,
+        },
+      },
+    },
+    omit: {
+      location_id: true,
+      position_id: true,
+    },
+  });
+  return todayData;
+}
+
 async function getFromTodayById(location_id, position_id) {
   return await prisma.today.findUnique({
     where: {
@@ -247,9 +269,10 @@ export {
   getLocationById,
   getPositionId,
   getPositionById,
-  getTodayData,
   getFromMapBySensorId,
   getFromMapBySensorIdWithJoin,
+  getTodayData,
+  getTodayDataWithJoin,
   getFromTodayById,
   insertToday,
   updateToday,
