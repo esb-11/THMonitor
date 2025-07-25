@@ -129,6 +129,8 @@ async function getFromMapBySensorId(sensorId) {
   return row;
 }
 
+console.log(await getAllFromMapWithJoin());
+
 export {
   getSensorId,
   getAllLocations,

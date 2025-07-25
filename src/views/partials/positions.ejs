@@ -1,0 +1,23 @@
+<div class="positions">
+  <table>
+    <h3>Positions</h3>
+    <thead>
+      <th>Position</th>
+      <th>Min humidity</th>
+      <th>Max humidity</th>
+      <th>Min temperature</th>
+      <th>Max temperature</th>
+    </thead>
+    <tbody>
+      <% for(const position of positions) {%>
+        <tr>
+          <td><%= position.position %></td>
+          <td><%= position.min_humidity / 100 %>%</td>
+          <td><%= position.max_humidity / 100 %>%</td>
+          <td><%= position.min_temperature / 100 %> °C</td>
+          <td><%= position.max_temperature / 100 %> °C</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
