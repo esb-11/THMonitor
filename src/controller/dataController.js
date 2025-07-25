@@ -6,14 +6,15 @@ import {
   insertToday,
 } from "../db/queries.js";
 
-function postData(req, res) {
+async function postData(req, res) {
   try {
     const data = parseIncomingData(req.body);
-    pushToDB(data);
+    await pushToDB(data);
   } catch (error) {
     console.error(error);
+  } finally {
+    res.end();
   }
-  res.end();
 }
 
 function parseIncomingData(data) {
