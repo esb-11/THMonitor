@@ -1,4 +1,4 @@
-import { getTodayData, getTodayDataWithJoin } from "../db/queries.js";
+import { getTodayDataWithJoin } from "../db/queries.js";
 
 async function getIndex(req, res) {
   res.render("index", {
