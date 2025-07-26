@@ -9,6 +9,16 @@ async function insertToday(data) {
   });
 }
 
+async function insertLocations(location, email=null) {
+  const result = await prisma.locations.create({
+    data: {
+      location: location,
+      email: email,
+    },
+  });
+  return result;
+}
+
 // Update queries
 async function updateToday(data) {
   await prisma.today.update({
@@ -138,5 +148,6 @@ export {
   getTodayDataWithJoin,
   getFromTodayById,
   insertToday,
+  insertLocations,
   updateToday,
 };
