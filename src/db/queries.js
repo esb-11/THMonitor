@@ -38,6 +38,26 @@ async function insertPosition(
   return result;
 }
 
+async function insertSensors(sensor) {
+  const result = await prisma.sensors.create({
+    data: {
+      sensor,
+    }
+  });
+  return result;
+}
+
+async function insertIntoMap(sensor_id, location_id, position_id) {
+  const result = await prisma.map.create({
+    data: {
+      sensor_id,
+      location_id,
+      position_id,
+    },
+  });
+  return result;
+}
+
 // Update queries
 async function updateToday(data) {
   await prisma.today.update({
@@ -63,6 +83,30 @@ async function getSensorId(sensorName) {
     },
   });
   return sensor?.sensor_id;
+}
+
+async function getLocationId(location) {
+  const result = await prisma.locations.findUnique({
+    where: {
+      location,
+    },
+    select: {
+      location_id: true,
+    },
+  });
+  return result?.location_id;
+}
+
+async function getPositionId(position) {
+  const result = await prisma.positions.findUnique({
+    where: {
+      position,
+    },
+    select: {
+      position_id: true,
+    },
+  });
+  return result?.position_id;
 }
 
 async function getAllLocations() {
@@ -160,6 +204,8 @@ async function getFromMapBySensorId(sensorId) {
 
 export {
   getSensorId,
+  getLocationId,
+  getPositionId,
   getAllLocations,
   getAllPositions,
   getAllFromMapWithJoin,
@@ -169,5 +215,7 @@ export {
   insertToday,
   insertLocations,
   insertPosition,
+  insertSensors,
+  insertIntoMap,
   updateToday,
 };
