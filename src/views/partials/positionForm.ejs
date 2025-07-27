@@ -1,0 +1,25 @@
+<div class="position-form">
+  <form action="/positions" method="post">
+    <label for="position">
+      <span>Position</span>
+      <input type="text" name="position" id="position" required>
+    </label>
+    <label for="min_humidity">
+      <span>Min humidity</span>
+      <input type="number" name="min_humidity" id="min_humidity" min="0" max="100" required>
+    </label>
+    <label for="max_humidity">
+      <span>Max humidity</span>
+      <input type="number" name="max_humidity" id="max_humidity" min="0" max="100" required>
+    </label>
+    <label for="min_temperature">
+      <span>Min temperature</span>
+      <input type="number" name="min_temperature" id="min_temperature" min="-99" max="99" required>
+    </label>
+    <label for="max_temperature">
+      <span>Max temperature</span>
+      <input type="number" name="max_temperature" id="max_temperature" min="-99" max="99" required>
+    </label>
+    <input type="submit" value="New position">
+  </form>
+</div>

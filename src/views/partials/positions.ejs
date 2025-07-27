@@ -10,14 +10,15 @@
     </thead>
     <tbody>
       <% for(const position of positions) {%>
-        <tr>
-          <td><%= position.position %></td>
-          <td><%= position.min_humidity / 100 %>%</td>
-          <td><%= position.max_humidity / 100 %>%</td>
-          <td><%= position.min_temperature / 100 %> °C</td>
-          <td><%= position.max_temperature / 100 %> °C</td>
-        </tr>
+      <tr>
+        <td><%= position.position %></td>
+        <td><%= position.min_humidity / 100 %>%</td>
+        <td><%= position.max_humidity / 100 %>%</td>
+        <td><%= position.min_temperature / 100 %> °C</td>
+        <td><%= position.max_temperature / 100 %> °C</td>
+      </tr>
       <% } %>
     </tbody>
   </table>
+  <%- include("positionForm") %>
 </div>

@@ -9,11 +9,30 @@ async function insertToday(data) {
   });
 }
 
-async function insertLocations(location, email=null) {
+async function insertLocations(location, email = null) {
   const result = await prisma.locations.create({
     data: {
       location: location,
       email: email,
+    },
+  });
+  return result;
+}
+
+async function insertPosition(
+  position,
+  min_humidity,
+  max_humidity,
+  min_temperature,
+  max_temperature
+) {
+  const result = await prisma.positions.create({
+    data: {
+      position,
+      min_humidity,
+      max_humidity,
+      min_temperature,
+      max_temperature,
     },
   });
   return result;
@@ -50,7 +69,7 @@ async function getAllLocations() {
   const locations = await prisma.locations.findMany({
     omit: {
       location_id: true,
-    }
+    },
   });
   return locations;
 }
@@ -59,7 +78,7 @@ async function getAllPositions() {
   const positions = await prisma.positions.findMany({
     omit: {
       position_id: true,
-    }
+    },
   });
   return positions;
 }
@@ -84,7 +103,7 @@ async function getTodayDataWithJoin() {
     },
     orderBy: {
       locations: {
-        location: 'asc',
+        location: "asc",
       },
     },
   });
@@ -149,5 +168,6 @@ export {
   getFromTodayById,
   insertToday,
   insertLocations,
+  insertPosition,
   updateToday,
 };
