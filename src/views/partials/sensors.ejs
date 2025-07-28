@@ -9,9 +9,9 @@
     <tbody>
       <% for (const row of map) { %>
       <tr>
-        <td><%= row.sensors.sensor %></td>
-        <td><%= row.locations.location %></td>
-        <td><%= row.positions.position %></td>
+        <td><%= row.sensors?.sensor %></td>
+        <td><%= row.locations?.location %></td>
+        <td><%= row.positions?.position %></td>
       </tr>
       <% } %>
     </tbody>

@@ -9,7 +9,7 @@ async function insertToday(data) {
   });
 }
 
-async function insertLocations(location, email = null) {
+async function insertLocation(location, email = null) {
   const result = await prisma.locations.create({
     data: {
       location: location,
@@ -74,6 +74,14 @@ async function updateToday(data) {
 }
 
 // Delete queries
+async function deleteLocation(location) {
+  const result = await prisma.locations.delete({
+    where: {
+      location,
+    }
+  });
+  return result;
+}
 
 // Select queries
 async function getSensorId(sensorName) {
@@ -213,9 +221,10 @@ export {
   getTodayDataWithJoin,
   getFromTodayById,
   insertToday,
-  insertLocations,
+  insertLocation,
   insertPosition,
   insertSensors,
   insertIntoMap,
   updateToday,
+  deleteLocation,
 };

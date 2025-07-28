@@ -10,9 +10,12 @@
         <tr>
           <td><%= location.location %></td>
           <td><%= location.email || "Empty" %></td>
+          <!-- <td><button class="delete-location" data-location=<%= location.location %>>Delete</button></td> -->
+          <td><form method="post" action="/locations/delete?location=<%= location.location %>"><input type="submit" value="Delete"></form></td>
         </tr>
       <% } %>
     </tbody>
   </table>
   <%- include("locationForm") %>
+  <script src="locationScript.js" defer></script>
 </div>
