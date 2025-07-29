@@ -16,6 +16,7 @@
         <td><%= position.max_humidity / 100 %>%</td>
         <td><%= position.min_temperature / 100 %> °C</td>
         <td><%= position.max_temperature / 100 %> °C</td>
+        <td><form action="/positions/delete?position=<%= position.position %>" method="post"><input type="submit" value="Delete"></form></td>
       </tr>
       <% } %>
     </tbody>

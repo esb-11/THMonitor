@@ -83,6 +83,15 @@ async function deleteLocation(location) {
   return result;
 }
 
+async function deletePosition(position) {
+  const result = await prisma.positions.delete({
+    where: {
+      position,
+    }
+  });
+  return result;
+}
+
 async function deleteSensor(sensor) {
   const result = await prisma.sensors.delete({
     where: {
@@ -237,4 +246,5 @@ export {
   updateToday,
   deleteLocation,
   deleteSensor,
+  deletePosition,
 };

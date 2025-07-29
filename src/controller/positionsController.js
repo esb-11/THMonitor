@@ -1,4 +1,4 @@
-import { insertPosition } from "../db/queries.js";
+import { insertPosition, deletePosition } from "../db/queries.js";
 
 async function postPositions(req, res) {
   try {
@@ -14,7 +14,7 @@ async function postPositions(req, res) {
       parseInt(min_humidity) * 100,
       parseInt(max_humidity) * 100,
       parseInt(min_temperature) * 100,
-      parseInt(max_temperature) * 100,
+      parseInt(max_temperature) * 100
     );
   } catch (error) {
     console.error(error);
@@ -24,4 +24,16 @@ async function postPositions(req, res) {
   }
 }
 
-export { postPositions };
+async function deletePositions(req, res) {
+  try {
+    const { position } = req.query;
+    await deletePosition(position);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  } finally {
+    res.redirect("/settings");
+  }
+}
+
+export { postPositions, deletePositions };
