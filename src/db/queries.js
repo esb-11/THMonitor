@@ -83,6 +83,15 @@ async function deleteLocation(location) {
   return result;
 }
 
+async function deleteSensor(sensor) {
+  const result = await prisma.sensors.delete({
+    where: {
+      sensor,
+    },
+  });
+  return result;
+}
+
 // Select queries
 async function getSensorId(sensorName) {
   const sensor = await prisma.sensors.findUnique({
@@ -227,4 +236,5 @@ export {
   insertIntoMap,
   updateToday,
   deleteLocation,
+  deleteSensor,
 };

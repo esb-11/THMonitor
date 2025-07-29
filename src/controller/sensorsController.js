@@ -1,10 +1,20 @@
-import { getLocationId, getPositionId, insertIntoMap, insertSensors } from "../db/queries.js";
+import {
+  getLocationId,
+  getPositionId,
+  insertIntoMap,
+  insertSensors,
+  deleteSensor,
+} from "../db/queries.js";
 
 async function postSensors(req, res) {
   try {
     const { sensor, location, position } = req.body;
     const locationId = await getLocationId(location);
     const positionId = await getPositionId(position);
+    
+    console.log(req.body);
+    console.log(`${position} ${positionId}`);
+    
     const sensorId = (await insertSensors(sensor)).sensor_id;
     await insertIntoMap(sensorId, locationId, positionId);
   } catch (error) {
@@ -15,4 +25,16 @@ async function postSensors(req, res) {
   }
 }
 
-export { postSensors };
+async function deleteSensors(req, res) {
+  try {
+    const { sensor } = req.query;
+    await deleteSensor(sensor);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  } finally {
+    res.redirect("/settings");
+  }
+}
+
+export { postSensors, deleteSensors };
