@@ -23,7 +23,7 @@ export async function getMapData(sensor) {
           position: true,
         },
       },
-    }
+    },
   });
   return result;
 }

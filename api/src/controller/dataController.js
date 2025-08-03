@@ -17,21 +17,12 @@ export async function postData(req, res, next) {
   data.min_humidity = Math.min(humidity, data?.min_humidity) || humidity;
   data.max_humidity = Math.max(humidity, data?.max_humidity) || humidity;
   
-  console.log(data);
-
   const result = await dataQueries.upsertData(data);
 
   res.status(201).json(result);
 }
 
 function parseIncomingData(data) {
-  if (
-    typeof data?.id != "string" ||
-    typeof data?.t_canal1 != "string" ||
-    typeof data?.u_canal1 != "string"
-  )
-    throw new Error("received data in incorrect format");
-
   const sensor = data.id;
   const temperature = parseInt(data.t_canal1.replace(".", ""));
   const humidity = parseInt(data.u_canal1.replace(".", ""));
