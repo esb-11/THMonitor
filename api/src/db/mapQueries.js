@@ -1,7 +1,7 @@
 import prisma from "./prismaClient.js";
 
 export async function getMapData(sensor) {
-  const result = await prisma.map.findUnique({
+  const result = await prisma.map.findFirst({
     where: {
       sensor: {
         sensor,

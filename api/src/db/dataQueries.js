@@ -4,10 +4,8 @@ export async function upsertData(data) {
   const { location_id, position_id, ...rest } = data;
   const result = await prisma.data.upsert({
     where: {
-      location: {
+      id: {
         location_id,
-      },
-      position: {
         position_id,
       },
     },

@@ -9,13 +9,15 @@ export async function postData(req, res, next) {
   if (!sensor_id || !location_id || !position_id) {
     throw new Error("Sensor not registered");
   }
-
-  const data = await dataQueries.getData(location_id, position_id);
-
+  
+  const data = await dataQueries.getData(location_id, position_id) || { location_id, position_id };
+  
   data.min_temperature = Math.min(temp, data?.min_temperature) || temp;
   data.max_temperature = Math.max(temp, data?.max_temperature) || temp;
   data.min_humidity = Math.min(humidity, data?.min_humidity) || humidity;
   data.max_humidity = Math.max(humidity, data?.max_humidity) || humidity;
+  
+  console.log(data);
 
   const result = await dataQueries.upsertData(data);
 
