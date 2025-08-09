@@ -9,6 +9,7 @@ const corsOptions = {
     if (process.env.ORIGIN == origin) {
       callback(null, true);
     } else {
+      console.log(`Acces denied to ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },

@@ -6,13 +6,9 @@ Add data validator and sanitizer middleware.
 
 Improve error handling.
 
-Create web page in client folder.
-
 Save data to History table at the end of the day and reset Data table.
 
-Add History table route, controller and queries.
-
-Add CORS middleware.
+Add History route, controller and queries.
 
 Add authentication middleware.
 
