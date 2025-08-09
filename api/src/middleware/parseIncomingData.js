@@ -1,8 +1,9 @@
 export function parseIncomingData(req, res, next) {
   const data = req.body;
 
-  if (!data || !data.id || !data.t_canal1 || !data.u_canal1)
-    throw new Error("No data received");
+  if (!data || !data.id || !data.t_canal1 || !data.u_canal1) {
+    res.end();
+  }
 
   const sensor = data.id;
   const temperature = parseInt(data.t_canal1.replace(".", ""));
