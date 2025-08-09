@@ -18,3 +18,5 @@ app.use("/", routes);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`) );
+
+console.log(`Only requests from ${process.env.ORIGIN} will be accepted`);
