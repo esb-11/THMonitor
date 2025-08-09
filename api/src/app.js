@@ -5,7 +5,13 @@ import cors from "cors";
 import errorHandler from "./middleware/errorHandler.js";
 
 const corsOptions = {
-  origin: process.env.ORIGIN,
+  origin: function (origin, callback) {
+    if (process.env.ORIGIN == origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 };
 
 const app = express();
