@@ -1,5 +1,6 @@
 import * as dataQueries from "../db/dataQueries.js";
 import { getMapData } from "../db/mapQueries.js";
+import { parseIncomingData } from "../middleware/parseIncomingData.js";
 
 export const postData = [
   parseIncomingData,
