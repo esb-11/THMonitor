@@ -19,7 +19,7 @@ const corsOptions = {
 const routes = Router();
 
 routes.use("/data", cors(), dataRouter);
-app.use(cors(corsOptions));
+routes.use(cors(corsOptions));
 routes.use("/sensors", sensorRouter);
 routes.use("/locations", locationRouter);
 routes.use("/positions", positionRouter);
