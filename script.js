@@ -4,7 +4,7 @@ async function logData() {
   const data = await fetch(url, {
     method: "GET",
   });
-  console.log(data.json());
+  console.log(await data.json());
 }
 
 logData();
